@@ -11,10 +11,6 @@ resources:
           interval: 1
           unit: DAYS
 
-      #email_notifications:
-      #  on_failure:
-      #    - your_email@example.com
-
       parameters:
         - name: catalog
           default: ${var.catalog}
@@ -22,17 +18,21 @@ resources:
           default: ${var.schema}
 
       tasks:
-        - task_key: notebook_task
+        - task_key: 1_silver_sales
           notebook_task:
-            notebook_path: ../src/sample_notebook.ipynb
-          job_cluster_key: job_cluster
+            notebook_path: ../src/1_silver_sales
+          existing_cluster_id: 0318-031919-b3fa4xtr
 
-      job_clusters:
-        - job_cluster_key: job_cluster
-          new_cluster:
-            spark_version: 16.4.x-scala2.12
-            node_type_id: Standard_D3_v2
-            data_security_mode: DATA_SECURITY_MODE_AUTO
-            autoscale:
-              min_workers: 1
-              max_workers: 4
+        - task_key: 2_gold_sales_daily
+          depends_on:
+          - task_key: 1_silver_sales
+          notebook_task:
+            notebook_path: ../src/2_gold_sales_daily
+          existing_cluster_id: 0318-031919-b3fa4xtr
+
+        - task_key: 3_gold_sentiment_summary
+          depends_on:
+          - task_key: 2_gold_sales_daily
+          notebook_task:
+            notebook_path: ../src/3_gold_sentiment_summary
+          existing_cluster_id: 0318-031919-b3fa4xtr
