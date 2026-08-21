@@ -20,19 +20,19 @@ resources:
       tasks:
         - task_key: 1_silver_sales
           notebook_task:
-            notebook_path: ../src/1_silver_sales
+            notebook_path: ../src/1_silver_sales.ipynb
           existing_cluster_id: 0318-031919-b3fa4xtr
 
         - task_key: 2_gold_sales_daily
           depends_on:
           - task_key: 1_silver_sales
           notebook_task:
-            notebook_path: ../src/2_gold_sales_daily
+            notebook_path: ../src/2_gold_sales_daily.ipynb
           existing_cluster_id: 0318-031919-b3fa4xtr
 
         - task_key: 3_gold_sentiment_summary
           depends_on:
           - task_key: 2_gold_sales_daily
           notebook_task:
-            notebook_path: ../src/3_gold_sentiment_summary
+            notebook_path: ../src/3_gold_sentiment_summary.ipynb
           existing_cluster_id: 0318-031919-b3fa4xtr
