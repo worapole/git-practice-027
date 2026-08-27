@@ -1,0 +1,66 @@
+# This is a Declarative Automation Bundle definition for de5.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: de5
+  uuid: 6e54b226-9272-40db-8e6d-31e0347eb133
+
+include:
+  - resources/*.yml
+
+# Variable declarations. These variables are assigned in the dev/prod targets below.
+variables:
+  catalog:
+    description: The catalog to use
+  schema:
+    description: The schema to use
+
+targets:
+  dev:
+    # The default target uses 'mode: development' to create a development copy.
+    # - Deployed resources get prefixed with '[dev my_user_name]'
+    # - Any job schedules and triggers are paused by default.
+    # See also https://docs.databricks.com/dev-tools/bundles/deployment-modes.html.
+    mode: development
+    default: true
+    workspace:
+      host: https://adb-1502583690645883.3.azuredatabricks.net
+    variables:
+      catalog: ctl_training_dev
+      schema: dev
+    presets:
+      artifacts_dynamic_version: true
+    permissions:
+      - user_name: worapole@ais.co.th
+        level: CAN_MANAGE
+      - user_name: chalanta@ais.co.th
+        level: CAN_MANAGE
+      - user_name: chayatha@ais.co.th
+        level: CAN_MANAGE
+      - user_name: sriamarm@ais.co.th
+        level: CAN_MANAGE
+      - user_name: jirapopg@ais.co.th
+        level: CAN_MANAGE
+      - group_name: BII_TRAIN_USER
+        level: CAN_VIEW
+  prod:
+    mode: production
+    workspace:
+      host: https://adb-1502583690645883.3.azuredatabricks.net
+      # We explicitly deploy to /Workspace/Users/worapole@ais.co.th to make sure we only have a single copy.
+      root_path: /Workspace/Users/worapole@ais.co.th/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      catalog: ctl_training_dev
+      schema: prod
+    permissions:
+      - user_name: worapole@ais.co.th
+        level: CAN_MANAGE
+      - user_name: chalanta@ais.co.th
+        level: CAN_MANAGE
+      - user_name: chayatha@ais.co.th
+        level: CAN_MANAGE
+      - user_name: sriamarm@ais.co.th
+        level: CAN_MANAGE
+      - user_name: jirapopg@ais.co.th
+        level: CAN_MANAGE
+      - group_name: BII_TRAIN_USER
+        level: CAN_VIEW
