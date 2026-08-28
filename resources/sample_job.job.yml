@@ -2,8 +2,8 @@
 
 resources:
   jobs:
-    de5_job:
-      name: de5_job
+    de5_job2:
+      name: de5_job2
 
       trigger:
         # Run this job every day, exactly one day from the last run; see https://docs.databricks.com/api/workspace/jobs/create#trigger
