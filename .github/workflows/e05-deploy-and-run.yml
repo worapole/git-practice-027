@@ -5,7 +5,7 @@ name: E5 Deploy and run
 
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths-ignore: ["**/*.md"]
   workflow_dispatch:
 
@@ -26,4 +26,4 @@ jobs:
         run: databricks bundle deploy -t dev
 
       - name: Run the deployed job
-        run: databricks bundle run rfm -t dev
+        run: databricks bundle run de5_job2 -t dev
